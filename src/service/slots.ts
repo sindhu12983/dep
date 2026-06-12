@@ -1,6 +1,6 @@
 import { Request,Response } from "express";
 import { cSlot,uSlot,slot } from "../models";
-import pool from '../db'
+import { pool } from '../db'
 export const createSlot=async (req:Request,res:Response)=>{
     const client=await pool.connect()
     try{
