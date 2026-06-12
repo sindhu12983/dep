@@ -11,7 +11,7 @@ if (!connectionString) {
 }
 
 // ✅ Create PostgreSQL pool
-export const pool = new Pool({
+const pool = new Pool({
   connectionString,
   ssl: {
     rejectUnauthorized: false, // required for Render PostgreSQL
@@ -59,3 +59,4 @@ export const createTables = async () => {
     throw err;
   }
 };
+export default pool;
