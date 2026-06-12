@@ -11,7 +11,7 @@ if (!connectionString) {
 }
 
 // ✅ Create PostgreSQL pool
-const pool = new Pool({
+export const pool = new Pool({
   connectionString,
   ssl: {
     rejectUnauthorized: false, // required for Render PostgreSQL
