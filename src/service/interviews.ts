@@ -1,5 +1,5 @@
 import { Request,Response } from "express";
-import pool from "../db";
+import { pool } from '../db'
 import { PoolClient } from "pg";
 import { cInterview,uInterview,interview } from "../models";
 export const createInterview=async (req:Request,res:Response)=>{
