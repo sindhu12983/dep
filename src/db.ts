@@ -2,15 +2,11 @@ import { Pool } from "pg"
 import dotenv from 'dotenv'
 dotenv.config()
 const pool = new Pool({
-  host: process.env.host,
-  user: process.env.user,
-  port: 5432,
-  password: process.env.password,
-  database: process.env.database,
-  max: 10,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000
-})
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
 
 export const createTables = async () => {
   try {
