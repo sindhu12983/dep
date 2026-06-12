@@ -1,6 +1,6 @@
 import {cUser,uUser,user} from '../models'
 import { Request,Response } from "express"
-import { pool } from '../db'
+import pool from '../db'
 import { PoolClient } from 'pg'
 export const createUser=async (req:Request,res:Response)=>{
     const client=await pool.connect()
