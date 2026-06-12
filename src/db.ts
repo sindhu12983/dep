@@ -1,13 +1,24 @@
-import { Pool } from "pg"
-import dotenv from 'dotenv'
-dotenv.config()
+import { Pool } from "pg";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+// ✅ Validate env before creating pool
+const connectionString = process.env.DATABASE_URL;
+
+if (!connectionString) {
+  throw new Error("❌ DATABASE_URL is missing in environment variables");
+}
+
+// ✅ Create PostgreSQL pool
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString,
   ssl: {
-    rejectUnauthorized: false
-  }
+    rejectUnauthorized: false, // required for Render PostgreSQL
+  },
 });
 
+// ✅ Function to create tables
 export const createTables = async () => {
   try {
     await pool.query(`
@@ -19,7 +30,7 @@ export const createTables = async () => {
         role VARCHAR(50) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
-    `)
+    `);
 
     await pool.query(`
       CREATE TABLE IF NOT EXISTS slots (
@@ -30,7 +41,7 @@ export const createTables = async () => {
         is_booked VARCHAR(20) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
-    `)
+    `);
 
     await pool.query(`
       CREATE TABLE IF NOT EXISTS interviews (
@@ -40,12 +51,11 @@ export const createTables = async () => {
         status VARCHAR(50) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
-    `)
+    `);
 
-    console.log("✅ Tables created successfully")
-  } catch (err: any) {
-    console.log("❌ Failed:", err.message)
+    console.log("✅ Tables created successfully");
+  } catch (err) {
+    console.error("❌ DB ERROR:", err);
+    throw err;
   }
-}
-
-export default pool
+};
